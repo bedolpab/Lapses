@@ -5,33 +5,52 @@ from skimage import img_as_float
 import requests
 import shutil
 from io import BytesIO
-from PIL import Image
+
+# Neuron Structure
+
 
 class Neuron:
-    def __init__(self, data, neuron):
+    def __init__(self, data, pos):
         self.data = data
-        self.order = neuron
+        self.pos = pos
+        self.dendrites = []
 
-    def __str__(self):
-        return f'Neuron {this.order} - Memory {this.data}'
+    def Axon(self):
+        return self.data
 
+
+# Fetch image
 url = "https://thispersondoesnotexist.com/image"
 image = requests.get(url).content
 
-with open('img.png', 'wb') as f:
+with open('imp.png', 'wb') as f:
     f.write(image)
 
+# Read image
 image = io.imread("./img.png")
-plt.imshow(image)
 
-pixel_list = []
+# Neuron Structure
+neuron_graph = []
+neuron_cells = []
 count = 0
-for i in range(1023):
-    for j in range(1023):
-        pixel_list.append(image[i, j, :])
-        count += 1
+for i in range(image.shape[0]):
+    row = []
+    neuron_rows = []
+    for j in range(image.shape[1]):
+        row.append(image[i, j, :])
+        data = image[i, j, :]
+        pos = (i, j)
 
-print(len(pixel_list))
+        # Create neuron
+        neuron_rows.append(Neuron(data=data, pos=pos))
+    # Append pixel row to re-display image
+    neuron_graph.append(row)
 
+    # Append neuron_row to graph
+    neuron_cells.append(neuron_rows)
 
+for i in range(len(neuron_cells)):
+    for j in range(len(neuron_cells[0])):
+        validator = lambda index: (0 <= index < i) and (0 <= index < j)
+            
 
