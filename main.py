@@ -4,7 +4,16 @@ from matplotlib import pyplot as plt
 from skimage import img_as_float
 import requests
 import shutil
-from io import BytesIO
+from io import BytesI
+from tensorflow import keras
+import numpy as np
+from keras.layers import (
+    Activation, BatchNormalization, Dense, Dropout, Flatten, Reshape)
+from keras.layers.convolutional import Conv2D, Conv2DTranspose
+from keras.models import Sequential, Model
+from keras.layers import LeakyReLU, Input
+from keras.optimizers import Adam
+from keras.datasets import mnist
 
 # Neuron Structure
 
@@ -19,7 +28,7 @@ class Neuron:
         return self.data
 
 
-# Fetch image
+'''# Fetch image
 url = "https://thispersondoesnotexist.com/image"
 image = requests.get(url).content
 
@@ -52,5 +61,26 @@ for i in range(image.shape[0]):
 for i in range(len(neuron_cells)):
     for j in range(len(neuron_cells[0])):
         validator = lambda index: (0 <= index < i) and (0 <= index < j)
-            
+            '''
+
+def get_images():
+    return 0
+
+def generator():
+    return 0
+    
+def discriminator():
+    return 0
+
+def noise():
+    return 0
+
+def gan_network():
+    return 0
+
+def train():
+    return 0
+
+def sample_images():
+    return 0
 
