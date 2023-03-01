@@ -3,10 +3,7 @@ Lapses.ipynb
 Tests.ipynb
 encoder.py
 Assets/
-images/
-gan_output_imgs/
-gan_output_imgs_2/
-gan_output_imgs_3/
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
