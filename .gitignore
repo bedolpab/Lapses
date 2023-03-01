@@ -6,7 +6,7 @@ Assets/
 images/
 gan_output_imgs/
 gan_output_imgs_2/
-gan_output_imgs)_3/
+gan_output_imgs_3/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
