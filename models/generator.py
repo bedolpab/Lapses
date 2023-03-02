@@ -32,8 +32,6 @@ def create_generator(z) -> keras.models.Sequential:
 
     model.add(Conv2DTranspose(3, kernel_size=3, strides=2, padding='same'))
     model.add(Activation('tanh'))
-    model.summary()
-
     return model
 
 
