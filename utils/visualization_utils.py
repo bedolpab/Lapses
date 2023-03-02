@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from tensorflow import keras
 from keras.utils.vis_utils import plot_model
 
 
@@ -21,3 +22,8 @@ def show_batch(batch):
 
 def model_to_png(model, file_name: str):
     plot_model(model, to_file=f'{file_name}.png', show_shapes=True)
+
+
+def save_plot(data: list, label: str, path:str, file_name: str):
+    plt.plot(data, label=label)
+    plt.savefig(f'{path}/{file_name}.png')

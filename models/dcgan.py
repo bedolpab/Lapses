@@ -1,11 +1,12 @@
 from tensorflow import keras
 from keras.models import Sequential
-from utils.image_utils import read_collection, image_path
+from utils.image_utils import read_collection
 from utils.file_utils import make_directory
 from utils.benchmark_utils import time_stamp, get_time
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
+from utils.visualization_utils import save_plot
 
 
 def DCGAN(generator, discriminator) -> keras.models.Sequential:
@@ -20,12 +21,14 @@ def train_dcgan(iterations: int,
                 batch_size: int,
                 sample_interval: int,
                 folder_name: str,
+                data_training_path: str,
                 generator: keras.models.Sequential,
                 discriminator: keras.models.Sequential,
                 dcgan: keras.models.Sequential):
-    data_images = read_collection(image_path)
+    data_images = read_collection(data_training_path,
+                                  'jpg')
     image_count = 0
-
+    print(f'Data images: {len(data_images)}')
     discriminator_losses = []
     gan_losses = []
     # Labels
@@ -34,8 +37,8 @@ def train_dcgan(iterations: int,
     fake_labels = np.zeros((batch_size, 1))
     time_stamp("Finishing ...", get_time())
 
-    make_directory(f'../{folder_name}')
-    make_directory(f'../{folder_name}/predictions')
+    make_directory(f'{folder_name}')
+    make_directory(f'{folder_name}/predictions')
 
     # Training
     for iteration in range(iterations):
@@ -59,8 +62,7 @@ def train_dcgan(iterations: int,
             generated_images, fake_labels)
 
         # Get Discriminator loss and accuracy
-        discriminator_loss, accuracy = 0.5 * \
-            np.add(discriminator_real_loss, discriminator_fake_loss)
+        discriminator_loss, accuracy = 0.5 * np.add(discriminator_real_loss, discriminator_fake_loss)
 
         # Train Generator
         z_fake = tf.random.normal([batch_size, 128])
@@ -91,9 +93,13 @@ def train_dcgan(iterations: int,
                     axs[i, j].imshow(generate_images[cnt])
                     cnt += 1
             plt.savefig(
-                f'../{folder_name}/predictions/iteration-{image_count}.png')
+                f'{folder_name}/predictions/iteration-{image_count}.png')
             image_count += 1
-            plt.show()
-    generator.save(f'../{folder_name}/generator')
-    discriminator.save(f'../{folder_name}/discriminator')
-    dcgan.save(f'../{folder_name}/gan')
+    plt.clf()
+    save_plot(discriminator_losses, 'Discriminator Loss',
+              folder_name, 'discriminator_loss')
+    plt.clf()
+    save_plot(gan_losses, 'GAN Loss', folder_name, 'gan_loss')
+    generator.save(f'{folder_name}/generator')
+    discriminator.save(f'{folder_name}/discriminator')
+    dcgan.save(f'{folder_name}/dcgan')
