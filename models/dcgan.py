@@ -7,4 +7,5 @@ def DCGAN(generator, discriminator) -> keras.models.Sequential:
     model.add(generator)
     model.add(discriminator)
 
+    model.summary()
     return model

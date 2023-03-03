@@ -14,25 +14,25 @@ import config
 # Create models
 
 generator = create_generator(config.Z_DIM)
+input(f"Validate {generator}: [ -- ]")
+
 discriminator = create_discriminator(config.IMG_SHAPE)
+input(f"Validate {discriminator}: [ -- ]")
 
 # Compile generator
 generator.compile(loss='binary_crossentropy',
-                  optimizer=Adam(learning_rate=0.0002, beta_1=0.4))
+                  optimizer=Adam(learning_rate=0.0002, beta_1=0.5))
 
 # Compile discriminator
 discriminator.compile(loss='binary_crossentropy',
-                      optimizer=Adam(learning_rate=0.0002, beta_1=0.4),
+                      optimizer=Adam(learning_rate=0.0002, beta_1=0.5),
                       metrics=['accuracy'])
-
-# Disable discriminator training
-discriminator.trainable = False
-
 
 # Create DCGAN
 dcgan = DCGAN(generator, discriminator)
 dcgan.compile(loss='binary_crossentropy',
               optimizer=Adam())
+input(f"Validate {dcgan}: [ -- ]")
 
 '''
 # Load model
@@ -55,8 +55,8 @@ make_directory(config.MODEL_FOLDER_NAME)
 make_directory(f'{config.MODEL_FOLDER_NAME}/predictions')
 
 for iteration in range(config.ITERATIONS):
-    # Collect batch
 
+    # Collect batch
     random_indicies = np.random.choice(
         len(data_images),
         size=config.BATCH_SIZE,
@@ -66,8 +66,10 @@ for iteration in range(config.ITERATIONS):
         [data_images[i] for i in random_indicies]) / 127.5 - 1.0  # rescale [-1,1]
 
     # Random batch of fake images
-    z_fake = tf.random.normal([config.BATCH_SIZE, config.Z_DIM])
+    z_fake = tf.random.normal([config.BATCH_SIZE, config.Z_DIM], 0, 1)
     generated_images = generator.predict(z_fake)
+
+    discriminator.trainable = True
 
     # Train Discriminator -> [Loss, Accuracy]
     discriminator_real_loss = discriminator.train_on_batch(
@@ -80,10 +82,11 @@ for iteration in range(config.ITERATIONS):
         discriminator_real_loss, discriminator_fake_loss)
 
     # Train Generator
-    z_fake = tf.random.normal([config.BATCH_SIZE, config.Z_DIM])
+    z_fake = tf.random.normal([config.BATCH_SIZE, config.Z_DIM], 0, 1)
     generated_images = generator.predict(z_fake)
 
     # Get Generator loss and accuracy
+    discriminator.trainable = False
     gan_loss = dcgan.train_on_batch(z_fake, real_labels)
 
     discriminator_losses.append(discriminator_loss)
@@ -95,7 +98,7 @@ for iteration in range(config.ITERATIONS):
             iteration + 1, discriminator_loss, 100.0 * accuracy, gan_loss))
 
         # Generate random images
-        z_generated = tf.random.normal([3*3, config.Z_DIM])
+        z_generated = tf.random.normal([3*3, config.Z_DIM], 0, 1)
         generate_images = generator.predict(z_generated)
         generate_images = 0.5 * generate_images + 0.5
 
