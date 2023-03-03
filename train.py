@@ -2,6 +2,7 @@ from models.dcgan import DCGAN
 from models.discriminator import create_discriminator
 from models.generator import create_generator
 from keras.optimizers import Adam
+from keras.utils import normalize
 from utils.image_utils import read_collection
 from utils.file_utils import make_directory
 from utils.benchmark_utils import time_stamp, get_time
@@ -63,7 +64,7 @@ for iteration in range(config.ITERATIONS):
         replace=False)
 
     real_image_batch = np.array(
-        [data_images[i] for i in random_indicies]) / 127.5 - 1.0  # rescale [-1,1]
+        [data_images[i] for i in random_indicies]) / 255  # rescale [0,1]
 
     # Random batch of fake images
     z_fake = tf.random.normal([config.BATCH_SIZE, config.Z_DIM], 0, 1)
