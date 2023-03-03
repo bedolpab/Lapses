@@ -12,6 +12,7 @@ from utils.visualization_utils import save_plot
 import config
 
 # Create models
+
 generator = create_generator(config.Z_DIM)
 discriminator = create_discriminator(config.IMG_SHAPE)
 
@@ -33,11 +34,17 @@ dcgan = DCGAN(generator, discriminator)
 dcgan.compile(loss='binary_crossentropy',
               optimizer=Adam())
 
+'''
+# Load model
+generator = tf.keras.models.load_model("./model-py-test/generator/")
+discriminator = tf.keras.models.load_model("./model-py-test/discriminator")
+dcgan = tf.keras.models.load_model("./model-py-test/dcgan")'''
+
 discriminator_losses = []
 gan_losses = []
 
 # Train DCGAN
-data_images = read_collection(config.DATA_TRAINING_PATH, 'jpg')
+data_images = read_collection(config.DATA_TRAINING_PATH, 'png')
 
 time_stamp("Generating labels ...", get_time())
 real_labels = np.ones((config.BATCH_SIZE, 1))
@@ -55,7 +62,8 @@ for iteration in range(config.ITERATIONS):
         size=config.BATCH_SIZE,
         replace=False)
 
-    real_image_batch = np.array([data_images[i] for i in random_indicies]) / 127.5 - 1.0  # rescale [-1,1]
+    real_image_batch = np.array(
+        [data_images[i] for i in random_indicies]) / 127.5 - 1.0  # rescale [-1,1]
 
     # Random batch of fake images
     z_fake = tf.random.normal([config.BATCH_SIZE, config.Z_DIM])
@@ -88,8 +96,8 @@ for iteration in range(config.ITERATIONS):
 
         # Generate random images
         z_generated = tf.random.normal([3*3, config.Z_DIM])
-        generated_images = generator.predict(z_generated)
-        generated_images = 0.5 * generated_images + 0.5
+        generate_images = generator.predict(z_generated)
+        generate_images = 0.5 * generate_images + 0.5
 
         # Plot
         fig = plt.figure(figsize=(3, 3))
@@ -100,7 +108,7 @@ for iteration in range(config.ITERATIONS):
             for j in range(3):
                 # Get images from batch at index 'i'
                 axs[i, j].imshow(
-                    generated_images[cnt, :, :, :]
+                    generate_images[cnt]
                 )
                 cnt += 1
         plt.savefig(

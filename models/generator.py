@@ -7,31 +7,35 @@ import matplotlib.pyplot as plt
 
 
 def create_generator(z) -> keras.models.Sequential:
+
     model = Sequential()
 
     # Input Latent vector
-    model.add(Dense(4*4*128, input_dim=z))
-    model.add(Reshape((4, 4, 128)))
+    model.add(Dense(4*4*512, input_dim=512))
 
-    # Conv
-    model.add(Conv2DTranspose(128, kernel_size=4, strides=4, padding='valid'))
-    model.add(BatchNormalization(momentum=0.5))
+    # Reshape
+    model.add(Reshape((4, 4, 512)))
+    model.add(BatchNormalization(momentum=0.8))
     model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(64, kernel_size=3, padding='same'))
-    model.add(BatchNormalization(momentum=0.5))
+    # Convolutional Layers
+    model.add(Conv2DTranspose(256, kernel_size=5, strides=2, padding='same'))
+    model.add(BatchNormalization(momentum=0.8))
     model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(32, kernel_size=3, strides=4, padding='same'))
-    model.add(BatchNormalization(momentum=0.5))
+    model.add(Conv2DTranspose(128, kernel_size=5, strides=2, padding='same'))
+    model.add(BatchNormalization(momentum=0.8))
     model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(16, kernel_size=3, padding='same'))
-    model.add(BatchNormalization(momentum=0.5))
+    model.add(Conv2DTranspose(64, kernel_size=5, strides=2, padding='same'))
+    model.add(BatchNormalization(momentum=0.8))
     model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(3, kernel_size=3, strides=2, padding='same'))
+    model.add(Conv2DTranspose(3, kernel_size=5, strides=2, padding='same'))
+
+    # Activation
     model.add(Activation('tanh'))
+
     return model
 
 

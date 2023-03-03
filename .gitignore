@@ -8,6 +8,7 @@ model-02/
 .DS_Store
 model-py-test/
 model-03/
+train-tpdne-64/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
