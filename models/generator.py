@@ -4,6 +4,7 @@ from keras.layers import Dense, Reshape, Conv2DTranspose, Activation, BatchNorma
 from keras.layers import Dropout, Activation, LeakyReLU
 from keras.models import Sequential
 from keras.utils import normalize
+from keras.initializers.initializers_v2 import RandomNormal
 import matplotlib.pyplot as plt
 
 
@@ -12,26 +13,32 @@ def create_generator(z) -> keras.models.Sequential:
     model = Sequential()
 
     # Input Latent vector
-    model.add(Dense(4*4*512, input_dim=z))
-    model.add(Reshape((4, 4, 512)))
+    model.add(Dense(8*8*1024, input_dim=z, activation='linear'))
+    model.add(Reshape((8, 8, 1024)))
+    model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(128, kernel_size=3, padding='same', strides=2))
-    model.add(BatchNormalization())
-    model.add(Activation('relu'))
+    model.add(Conv2DTranspose(filters=512, kernel_size=5, padding='same', strides=2,
+                              kernel_initializer=RandomNormal(mean=0.0, stddev=0.02)))
+    model.add(BatchNormalization(epsilon=0.00005, trainable=True))
+    model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(64, kernel_size=3, padding='same', strides=2))
-    model.add(BatchNormalization())
-    model.add(Activation('relu'))
+    model.add(Conv2DTranspose(filters=256, kernel_size=5, padding='same', strides=2,
+                              kernel_initializer=RandomNormal(mean=0.0, stddev=0.02)))
+    model.add(BatchNormalization(epsilon=0.00005, trainable=True))
+    model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(32, kernel_size=3, padding='same', strides=2))
-    model.add(BatchNormalization())
-    model.add(Activation('relu'))
+    model.add(Conv2DTranspose(filters=128, kernel_size=5, padding='same', strides=2,
+                              kernel_initializer=RandomNormal(mean=0.0, stddev=0.02)))
+    model.add(BatchNormalization(epsilon=0.00005, trainable=True))
+    model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(16, kernel_size=3, padding='same', strides=2))
-    model.add(BatchNormalization())
-    model.add(Activation('relu'))
+    model.add(Conv2DTranspose(filters=64, kernel_size=5, padding='same', strides=2,
+                              kernel_initializer=RandomNormal(mean=0.0, stddev=0.02)))
+    model.add(BatchNormalization(epsilon=0.00005, trainable=True))
+    model.add(LeakyReLU(alpha=0.2))
 
-    model.add(Conv2DTranspose(3, kernel_size=3, padding='same'))
+    model.add(Conv2DTranspose(filters=3, kernel_size=5, padding='same', strides=1,
+                              kernel_initializer=RandomNormal(mean=0.0, stddev=0.02)))
     model.add(Activation('tanh'))
 
     model.summary()
