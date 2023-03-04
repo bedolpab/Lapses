@@ -20,10 +20,13 @@ input(f"Validate {generator}: [ -- ]")
 discriminator = create_discriminator(config.IMG_SHAPE)
 input(f"Validate {discriminator}: [ -- ]")
 
+# Compile generator
+generator.compile(loss='binary_crossentropy',
+                  optimizer=Adam(learning_rate=0.0008, beta_1=0.5))
 
 # Compile discriminator
 discriminator.compile(loss='binary_crossentropy',
-                      optimizer=Adam(learning_rate=0.00002, beta_1=0.5),
+                      optimizer=Adam(learning_rate=0.0008, beta_1=0.5),
                       metrics=['accuracy'])
 
 discriminator.trainable = False
@@ -31,7 +34,7 @@ discriminator.trainable = False
 # Create DCGAN
 dcgan = DCGAN(generator, discriminator)
 dcgan.compile(loss='binary_crossentropy',
-              optimizer=Adam(learning_rate=0.0002, beta_1=0.5))
+              optimizer=Adam())
 input(f"Validate {dcgan}: [ -- ]")
 
 '''
@@ -44,7 +47,7 @@ discriminator_losses = []
 gan_losses = []
 
 # Train DCGAN
-data_images = read_collection(config.DATA_TRAINING_PATH, 'jpg')
+data_images = read_collection(config.DATA_TRAINING_PATH, 'png')
 
 time_stamp("Generating labels ...", get_time())
 real_labels = np.ones((config.BATCH_SIZE, 1))
