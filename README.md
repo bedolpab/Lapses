@@ -17,7 +17,7 @@ The generator implements a multi-deep layer architecture for generating $128 \ti
 #### DCGAN$_1$
 | Epochs            | Batch Size        | Sample Interval   | Dataset Size ($X$)| Latent Size ($z$)
 |-------------------|-------------------|-------------------|---------------------|------|
-| 10,000            | 32                | 20                | 1,000 [$x_{0}$ , $x_{1000}$]        |128|
+| 10,000            | 32                | 20                | 1,000       |128|
 
 https://user-images.githubusercontent.com/70508631/222946076-31350c71-226b-4906-a869-72ec38d0a975.mp4
 
