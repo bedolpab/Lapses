@@ -20,7 +20,7 @@ input(f"Validate {generator}: [ -- ]")
 discriminator = create_discriminator(config.IMG_SHAPE)
 input(f"Validate {discriminator}: [ -- ]")
 
-# Compile generator
+#  Compile generator
 generator.compile(loss='binary_crossentropy',
                   optimizer=Adam(learning_rate=0.0008, beta_1=0.5))
 
@@ -48,7 +48,6 @@ gan_losses = []
 
 # Train DCGAN
 data_images = read_collection(config.DATA_TRAINING_PATH, 'png')
-
 time_stamp("Generating labels ...", get_time())
 real_labels = np.ones((config.BATCH_SIZE, 1))
 fake_labels = np.zeros((config.BATCH_SIZE, 1))
@@ -102,7 +101,7 @@ for iteration in range(config.ITERATIONS):
         # Generate random images
         z_generated = tf.random.normal([3*3, config.Z_DIM], 0, 1)
         generate_images = generator.predict(z_generated)
-        generate_images = 0.5 * generate_images + 0.5
+        generate_images = (generate_images + 1) / 2
 
         # Plot
         fig = plt.figure(figsize=(3, 3))

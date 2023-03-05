@@ -8,3 +8,75 @@ The real images used in the training set were obtained by scraping 10,000 images
 
 ## Using it
 The implementation of the DCGAN is currently a Jupyter notebook in Python and is still a work in progress. Once completed, users will be able to use the notebook to train the DCGAN on the provided dataset and generate images that depict the progression of dementia.
+
+
+## Generator
+The generator implements a multi-deep layer architecture for generating $128 \times 128 \times 3$ images. Two versions are implemented to generate fake images given dataset $X$ (thispersondoesnotexists.com) from a latent $z$ vector. DCGAN$_1$ is trained on $\frac{1}{10}$ of dataset $X$. This tries to generate a variety of images. DCGAN$_2$ is trained on $[x_i, x_k] \in X$, i.e on a small subset (say 5-10 images) from $X$. This is to achieve higher quality images at the expense of variety. However, we are not concerned with variety of images. We are focused on creating a network that can generate images given some $n$ sized dataset, our "memory" in this case, of a few people (images). Our purpose is to break it apart to depict cognitive loss in patients with dementia. 
+
+### Samples
+#### DCGAN$_1$
+| Epochs            | Batch Size        | Sample Interval   | Dataset Size ($X$)| Latent Size ($z$)
+|-------------------|-------------------|-------------------|---------------------|------|
+| 10,000            | 32                | 20                | 1,000 [$x_0,  x_{1000}$]        |128|
+![Video description](./README-data/dcgan-1-timeline.mp4)
+##### Discriminator Loss:
+![Discriminator Loss](./dcgan-1/discriminator_loss.png)
+##### Generator Loss:
+![Generator Loss](./dcgan-1/gan_loss.png)
+
+##### Using the model
+Import the required libraries
+```python
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+```
+
+Load in the model from `dcgan-1/generator`
+```python
+model = keras.models.load_model('dcgan-1/generator')
+```
+
+Test the model
+```python
+noise = tf.random.normal([1, 128])
+result = model.predict(noise)
+```
+Plot (view) the generated image
+```python
+result = (result+1) / 2
+plt.imshow(result[0, :, :, :])
+```
+
+#### DCGAN$_2$
+| Epochs            | Batch Size        | Sample Interval   | Dataset Size ($X$)| Latent Size ($z$)
+|-------------------|-------------------|-------------------|-------------------|--|
+| 1400            | 32                | 20                | 37 (same image)             | 128|
+![Video description](./README-data/dcgan-2-timeline.mp4)
+##### Discriminator Loss:
+![Discriminator Loss](./dcgan-2/discriminator_loss.png)
+##### Generator Loss:
+![Generator Loss](./dcgan-2/gan_loss.png)
+##### Using the model
+Import the required libraries
+```python
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+```
+
+Load in the model from `dcgan-2/generator`
+```python
+model = keras.models.load_model('dcgan-2/generator')
+```
+
+Test the model
+```python
+noise = tf.random.normal([1, 128])
+result = model.predict(noise)
+```
+Plot (view) the generated image
+```python
+result = (result+1) / 2
+plt.imshow(result[0, :, :, :])
+```

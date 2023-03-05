@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
 from keras.layers import Dense, Reshape, Conv2DTranspose, Activation, BatchNormalization, UpSampling2D
-from keras.layers import Dropout, Activation, LeakyReLU
+from keras.layers import Dropout, Activation, LeakyReLU, ReLU
 from keras.models import Sequential
 from keras.utils import normalize
 from keras.initializers.initializers_v2 import RandomNormal
@@ -17,23 +17,23 @@ def create_generator(z) -> keras.models.Sequential:
     model.add(Reshape((4, 4, 128)))
 
     model.add(Conv2DTranspose(filters=128, kernel_size=4,
-              padding='valid', strides=4, bias_initializer=RandomNormal(0, 1)))
-    model.add(BatchNormalization(momentum=0.9))
+              padding='valid', strides=4))
+    model.add(BatchNormalization(momentum=0.5))
 
     model.add(Conv2DTranspose(filters=64, kernel_size=3,
-              padding='same', bias_initializer=RandomNormal(0, 1)))
-    model.add(BatchNormalization(momentum=0.9))
+              padding='same'))
+    model.add(BatchNormalization(momentum=0.5))
 
     model.add(Conv2DTranspose(filters=32, kernel_size=3,
-              padding='same', strides=4, bias_initializer=RandomNormal(0, 1)))
-    model.add(BatchNormalization(momentum=0.9))
+              padding='same', strides=4))
+    model.add(BatchNormalization(momentum=0.5))
 
     model.add(Conv2DTranspose(filters=16, kernel_size=3,
-              padding='same', bias_initializer=RandomNormal(0, 1)))
-    model.add(BatchNormalization(momentum=0.9))
+              padding='same'))
+    model.add(BatchNormalization(momentum=0.5))
 
     model.add(Conv2DTranspose(filters=3, kernel_size=3, padding='same',
-              strides=2, bias_initializer=RandomNormal(0, 1)))
+              strides=2))
 
     model.add(Activation('tanh'))
 
