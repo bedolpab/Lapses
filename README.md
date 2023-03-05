@@ -18,7 +18,8 @@ The generator implements a multi-deep layer architecture for generating $128 \ti
 | Epochs            | Batch Size        | Sample Interval   | Dataset Size ($X$)| Latent Size ($z$)
 |-------------------|-------------------|-------------------|---------------------|------|
 | 10,000            | 32                | 20                | 1,000 [$x_0,  x_{1000}$]        |128|
-![Video description](./README-data/dcgan-1-timeline.mp4)
+<video src='https://user-images.githubusercontent.com/70508631/222946076-31350c71-226b-4906-a869-72ec38d0a975.mp4' width=auto>
+
 ##### Discriminator Loss:
 ![Discriminator Loss](./dcgan-1/discriminator_loss.png)
 ##### Generator Loss:
@@ -26,6 +27,7 @@ The generator implements a multi-deep layer architecture for generating $128 \ti
 
 ##### Using the model
 Import the required libraries
+
 ```python
 import numpy as np
 import tensorflow as tf
@@ -52,12 +54,14 @@ plt.imshow(result[0, :, :, :])
 | Epochs            | Batch Size        | Sample Interval   | Dataset Size ($X$)| Latent Size ($z$)
 |-------------------|-------------------|-------------------|-------------------|--|
 | 1400            | 32                | 20                | 37 (same image)             | 128|
-![Video description](./README-data/dcgan-2-timeline.mp4)
+<video src='https://user-images.githubusercontent.com/70508631/222946158-6c4ab0a5-3931-4762-bfb8-3884354b1750.mp4' width=auto>
+
 ##### Discriminator Loss:
 ![Discriminator Loss](./dcgan-2/discriminator_loss.png)
 ##### Generator Loss:
 ![Generator Loss](./dcgan-2/gan_loss.png)
 ##### Using the model
+
 Import the required libraries
 ```python
 import numpy as np
