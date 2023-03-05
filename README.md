@@ -11,10 +11,10 @@ The implementation of the DCGAN is currently a Jupyter notebook in Python and is
 
 
 ## Generator
-The generator implements a multi-deep layer architecture for generating $128 \times 128 \times 3$ images. Two versions are implemented to generate fake images given dataset $X$ (thispersondoesnotexists.com) from a latent $z$ vector. DCGAN$_1$ is trained on $\frac{1}{10}$ of dataset $X$. This tries to generate a variety of images. DCGAN$_2$ is trained on $[x_i, x_k] \in X$, i.e on a small subset (say 5-10 images) from $X$. This is to achieve higher quality images at the expense of variety. However, we are not concerned with variety of images. We are focused on creating a network that can generate images given some $n$ sized dataset, our "memory" in this case, of a few people (images). Our purpose is to break it apart to depict cognitive loss in patients with dementia. 
+The generator implements a multi-deep layer architecture for generating $128 \times 128 \times 3$ images. Two versions are implemented to generate fake images given dataset $X$ (thispersondoesnotexists.com) from a latent $z$ vector. DCGAN(1) is trained on $\frac{1}{10}$ of dataset $X$. This tries to generate a variety of images. DCGAN(2) is trained on $[x_i, x_k] \in X$, i.e on a small subset (say 5-10 images) from $X$. This is to achieve higher quality images at the expense of variety. However, we are not concerned with variety of images. We are focused on creating a network that can generate images given some $n$ sized dataset, our "memory" in this case, of a few people (images). Our purpose is to break it apart to depict cognitive loss in patients with dementia. 
 
 ### Samples
-#### DCGAN$_1$
+#### DCGAN (1)
 | Epochs            | Batch Size        | Sample Interval   | Dataset Size ($X$)| Latent Size ($z$)
 |-------------------|-------------------|-------------------|---------------------|------|
 | 10,000            | 32                | 20                | 1,000       |128|
@@ -51,7 +51,7 @@ result = (result+1) / 2
 plt.imshow(result[0, :, :, :])
 ```
 
-#### DCGAN$_2$
+#### DCGAN (2)
 | Epochs | Batch Size|Sample Interval|Dataset Size ($X$)|Latent Size ($z$) |
 |-------------------|-------------------|-------------------|-------------------|--|
 | 1400  | 32  | 20  | 37 (same image)  | 128|
