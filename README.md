@@ -19,9 +19,7 @@ The generator implements a multi-deep layer architecture for generating $128 \ti
 |-------------------|-------------------|-------------------|---------------------|------|
 | 10,000            | 32                | 20                | 1,000 [$x_0,  x_{1000}$]        |128|
 
-<video width="auto" height="auto" autoplay>
-  <source src="https://user-images.githubusercontent.com/70508631/222946076-31350c71-226b-4906-a869-72ec38d0a975.mp4" type="video/mp4">
-</video> 
+https://user-images.githubusercontent.com/70508631/222946076-31350c71-226b-4906-a869-72ec38d0a975.mp4
 
 ##### Discriminator Loss:
 ![Discriminator Loss](./dcgan-1/discriminator_loss.png)
@@ -58,9 +56,7 @@ plt.imshow(result[0, :, :, :])
 |-------------------|-------------------|-------------------|-------------------|--|
 | 1400  | 32  | 20  | 37 (same image)  | 128|
 
-<video width="auto" height="auto" autoplay>
-  <source src="https://user-images.githubusercontent.com/70508631/222946158-6c4ab0a5-3931-4762-bfb8-3884354b1750.mp4" type="video/mp4">
-</video> 
+https://user-images.githubusercontent.com/70508631/222946158-6c4ab0a5-3931-4762-bfb8-3884354b1750.mp4
 
 ##### Discriminator Loss:
 ![Discriminator Loss](./dcgan-2/discriminator_loss.png)
