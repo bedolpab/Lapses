@@ -88,3 +88,6 @@ Plot (view) the generated image
 result = (result+1) / 2
 plt.imshow(result[0, :, :, :])
 ```
+
+##### Data
+Data can be found on [Kaggle](https://www.kaggle.com/datasets/pablobedolla/this-person-does-not-exist-data)
