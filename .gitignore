@@ -9,6 +9,7 @@ model-02/
 model-py-test/
 model-03/
 train-tpdne-64/
+README-data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
