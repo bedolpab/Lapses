@@ -2,7 +2,6 @@ from models.dcgan import DCGAN
 from models.discriminator import create_discriminator
 from models.generator import create_generator
 from keras.optimizers import Adam
-from keras.utils import normalize
 from utils.image_utils import read_collection
 from utils.file_utils import make_directory
 from utils.benchmark_utils import time_stamp, get_time
