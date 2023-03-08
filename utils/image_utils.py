@@ -1,7 +1,7 @@
 from skimage import io
 from skimage.io import imread_collection
-from PIL import Image
 from utils.file_utils import make_directory
+from PIL import Image
 import numpy as np
 import requests
 import PIL
@@ -17,7 +17,7 @@ def save_image(image, count: int, img_type: str):
 
 
 def fetch_images(k: int):
-    """ 
+    """
     Fetch images from thispersondoesnotexist.com
 
     :param k: number of images to fetch
@@ -42,22 +42,8 @@ def read_image(folder_name: str, image_name: str, img_type: str) -> np.ndarray:
     return io.imread(f'{folder_name}/{image_name}.{img_type}')
 
 
-def image_exists(folder_name: str, img_type: str) -> bool:
-    """ 
-    Check whether an image exists in folder_name
-
-    :param folder_name: folder in which dataset images are located
-    """
-    try:
-        # Default image 0
-        image = read_image(image_path, 'img_0', 0)
-        return True
-    except:
-        print(f'Image "img_0.{img_type}" in {folder_name} not found')
-        return False
-
-
-def read_collection(folder_name: str, img_type: str) -> io.collection.ImageCollection:
+def read_collection(folder_name: str,
+                    img_type: str) -> io.collection.ImageCollection:
     return imread_collection(f'{folder_name}/*.{img_type}')
 
 

@@ -65,7 +65,8 @@ for iteration in range(config.ITERATIONS):
         replace=False)
 
     real_image_batch = np.array(
-        [data_images[i] for i in random_indicies]) / 127.5 - 1.0  # rescale [-1,1]
+        [data_images[i] for i in random_indicies]
+        ) / 127.5 - 1.0  # rescale [-1,1]
 
     # Random batch of fake images
     z_fake = tf.random.normal([config.BATCH_SIZE, config.Z_DIM], 0, 1)

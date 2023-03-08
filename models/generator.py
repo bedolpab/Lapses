@@ -1,11 +1,9 @@
-import tensorflow as tf
 from tensorflow import keras
-from keras.layers import Dense, Reshape, Conv2DTranspose, Activation, BatchNormalization, UpSampling2D
-from keras.layers import Dropout, Activation, LeakyReLU, ReLU
+from keras.layers import Dense, Conv2DTranspose, Activation, BatchNormalization
+from keras.layers import Reshape
 from keras.models import Sequential
-from keras.utils import normalize
-from keras.initializers.initializers_v2 import RandomNormal
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 
 def create_generator(z) -> keras.models.Sequential:

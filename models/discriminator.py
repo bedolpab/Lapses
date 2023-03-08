@@ -1,10 +1,8 @@
-
 from tensorflow import keras
 from keras.layers import Dense, Flatten, Conv2D
-from keras.layers import LeakyReLU, BatchNormalization, AveragePooling2D
+from keras.layers import LeakyReLU
 from keras.models import Sequential
-from keras.layers import Dropout, Activation
-from keras.initializers.initializers_v2 import RandomNormal
+from keras.layers import Dropout
 
 
 def create_discriminator(img_shape) -> keras.models.Sequential:

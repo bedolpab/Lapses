@@ -1,7 +1,6 @@
+from keras.utils.vis_utils import plot_model
 import numpy as np
 import matplotlib.pyplot as plt
-from tensorflow import keras
-from keras.utils.vis_utils import plot_model
 import tensorflow as tf
 
 
