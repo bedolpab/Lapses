@@ -5,19 +5,17 @@ from keras.optimizers import Adam
 from utils.image_utils import read_collection
 from utils.file_utils import make_directory
 from utils.benchmark_utils import time_stamp, get_time
+from utils.visualization_utils import save_plot
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-from utils.visualization_utils import save_plot
 import config
+import logging
 
 # Create models
 
 generator = create_generator(config.Z_DIM)
-input(f"Validate {generator}: [ -- ]")
-
 discriminator = create_discriminator(config.IMG_SHAPE)
-input(f"Validate {discriminator}: [ -- ]")
 
 #  Compile generator
 generator.compile(loss='binary_crossentropy',
@@ -34,13 +32,6 @@ discriminator.trainable = False
 dcgan = DCGAN(generator, discriminator)
 dcgan.compile(loss='binary_crossentropy',
               optimizer=Adam())
-input(f"Validate {dcgan}: [ -- ]")
-
-'''
-# Load model
-generator = tf.keras.models.load_model("./model-py-test/generator/")
-discriminator = tf.keras.models.load_model("./model-py-test/discriminator")
-dcgan = tf.keras.models.load_model("./model-py-test/dcgan")'''
 
 discriminator_losses = []
 gan_losses = []
@@ -55,8 +46,16 @@ time_stamp("Finishing ...", get_time())
 make_directory(config.MODEL_FOLDER_NAME)
 make_directory(f'{config.MODEL_FOLDER_NAME}/predictions')
 
-for iteration in range(config.ITERATIONS):
+# Set logging level
+logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+        filename="training.log",
+        )
 
+
+for iteration in range(config.ITERATIONS):
     # Collect batch
     random_indicies = np.random.choice(
         len(data_images),
@@ -95,7 +94,7 @@ for iteration in range(config.ITERATIONS):
 
     # Progress output
     if (iteration + 1) % config.SAMPLE_INTERVAL == 0:
-        print("Iteration %d [D loss: %f, acc.:%.2f%%] [G loss: %f]" % (
+        logging.info("Iteration %d [D loss: %f, acc:%.2f%%] [G loss: %f]" % (
             iteration + 1, discriminator_loss, 100.0 * accuracy, gan_loss))
 
         # Generate random images
@@ -119,13 +118,16 @@ for iteration in range(config.ITERATIONS):
             f'{config.MODEL_FOLDER_NAME}/predictions/{iteration+1}.png'
         )
 
+logging.info("Saving discriminator losses")
 plt.clf()
 save_plot(discriminator_losses, 'Discriminator Loss',
           config.MODEL_FOLDER_NAME, 'discriminator_loss')
 
+logging.info("Saving gan losses")
 plt.clf()
 save_plot(gan_losses, 'GAN Loss', config.MODEL_FOLDER_NAME, 'gan_loss')
 
+logging.info("Saving generator, discriminator, dcgan")
 generator.save(f'{config.MODEL_FOLDER_NAME}/generator')
 discriminator.save(f'{config.MODEL_FOLDER_NAME}/discriminator')
 dcgan.save(f'{config.MODEL_FOLDER_NAME}/dcgan')
